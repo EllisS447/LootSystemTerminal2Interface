@@ -45,4 +45,7 @@ document.getElementById("addLoot").addEventListener("click", function() {
 });
 
 // Debugging Reflection:
-// Complete after testing with a breakpoint.
+// A breakpoint was placed on line 23 to observe what happens when I add loot. 
+// Before the addition of Wood, I had Gold and Silver in my array. 
+// After the loot.push line ran, it updated to three items in my array. 
+// Once the Wood was added to the array, the loot list and total were updated on the webpage to show 155. 
