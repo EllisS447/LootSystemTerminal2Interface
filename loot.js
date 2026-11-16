@@ -1,51 +1,48 @@
-const prompt = require("prompt-sync")();
 const loot = [];
-let running = true;
 
 // Collect loot
-while (running) {
-    let newLoot = prompt("Enter loot name (or done): ");
+document.getElementById("addLoot").addEventListener("click", function() {
+    let newLoot = document.getElementById("lootName").value;
+    let lootValue = document.getElementById("lootValue").value;
+    let message = document.getElementById("message");
 
-    if (newLoot.trim().toLowerCase() === "done") {
-        if (loot.length > 0) {
-            running = false;
-        } else {
-            console.log("Please enter at least one item.");
-        }
-    } else if (newLoot.trim().length > 0) {
-        let value = Number(prompt("Enter loot value: "));
-
-        if (value > 0 && isFinite(value)) {
-            loot.push({ name: newLoot, value: value });
-        } else {
-            console.log("Please enter a valid positive number.");
-        }
-    } else {
-        console.log("Please enter a loot name.");
+    // Check input
+    if (newLoot.trim().length === 0) {
+        message.textContent = "Please enter a loot name.";
     }
-}
+    else if (lootValue.trim() === "" || isNaN(Number(lootValue))) {
+        message.textContent = "Please enter a valid number.";
+    }
+    else if (Number(lootValue) < 0) {
+        message.textContent = "Loot value cannot be negative.";
+    }
+    else {
+        let value = Number(lootValue);
 
- // Show loot list
-console.log("\nLoot Collected:");
+        // Add loot to array
+        loot.push({ name: newLoot, value: value });
+        message.textContent = "";
 
-for (let i = 0; i < loot.length; i++) {
-    console.log("[" + (i + 1) + "] " + loot[i].name + " - " + loot[i].value);
-}
+        // Show loot list
+        let lootList = document.getElementById("lootList");
+        lootList.innerHTML = "";
 
-// Calculate total
-let totalValue = 0;
+        for (let i = 0; i < loot.length; i++) {
+            let item = document.createElement("li");
+            item.textContent = "[" + (i + 1) + "] " + loot[i].name + " - " + loot[i].value;
+            lootList.innerHTML += item.outerHTML;
+        }
 
-for (let i = 0; i < loot.length; i++) {
-    totalValue = totalValue + loot[i].value;
-}
+        // Calculate total
+        let totalValue = 0;
 
-console.log("\nTotal Loot Value: " + totalValue);
+        for (let i = 0; i < loot.length; i++) {
+            totalValue = totalValue + loot[i].value;
+        }
 
-prompt("Press any key to continue..");
+        document.getElementById("totalValue").textContent = totalValue;
+    }
+});
 
-// Reflection:
-// Each loot item is an object with a name and value.
-// The objects are stored in the loot array.
-// The first for loop displays each item's index, name, and value.
-// The second for loop adds each item's value to totalValue.
-// This calculates the total value of all the loot entered.
+// Debugging Reflection:
+// Complete after testing with a breakpoint.
